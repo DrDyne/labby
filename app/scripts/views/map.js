@@ -2,32 +2,30 @@
 define([
   'backbone',
   'collections/map',
-  'resources/layouts',
-], function (Backbone, Map, Layouts) {
+], function (Backbone, Map) {
   return Backbone.View.extend({
     initialize: function (options) {
-      this.collection = new Map({
-        width: options.width,
-        height: options.height
-      });
 
-      this.collection.load(Layouts.stage1);
-      this.collection.shuffle();
+      this.collection = new Map({layout: 'stage1'});
+      this.collection.renderLayout();
 
       this.bindPushables();
     },
 
     bindPushables: function () {
-      for ( var x = 0 ; x < this.collection.get('width'); x++ ) {
-        this.isPushable('up', x);
-        this.isPushable('down', x);
-        console.log([this.isPushable('up', x), this.isPushable('down', x)]);
-      }
-      for ( var y = 0; y < this.collection.get('height'); y++ ) {
-        this.isPushable('left', y);
-        this.isPushable('right', y);
-        console.log([this.isPushable('left', y), this.isPushable('right', y)]);
-      }
+      _(this.collection.cols()).each(function (col, index) {
+        this.isPushable('up', index);
+        this.isPushable('down', index);
+        console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
+      }, this);
+
+      console.log('---');
+
+      _(this.collection.rows()).each(function (row, index) {
+        this.isPushable('left', index);
+        this.isPushable('right', index);
+        console.log(index, 'left', this.isPushable('left', index), 'right', this.isPushable('right', index));
+      }, this);
     },
 
     //ry direction = up right down left
@@ -39,10 +37,10 @@ define([
         var x = coord;
         if ( direction === 'up' && this.collection.hasPlayer(x, 0) )
           return false;
-        if ( direction === 'down' && this.collection.hasPlayer(x, this.collection.get('height')) )
+        if ( direction === 'down' && this.collection.hasPlayer(x, this.collection.getHeight()) )
           return false;
 
-        for ( var y = 0; y < this.collection.get('height'); y++ ) {
+        for ( var y = 0; y < this.collection.getHeight(); y++ ) {
           if ( this.collection.isBlocker(x, y) ) blocked = true;
         }
         return !blocked;
@@ -50,11 +48,11 @@ define([
 
       if ( direction === 'right' || direction === 'left' ) {
         var y = coord;
-        if ( direction === 'right' && this.collection.hasPlayer(this.collection.get('width'), y) )
+        if ( direction === 'right' && this.collection.hasPlayer(this.collection.getWidth(), y) )
           return false;
         if ( direction === 'left' && this.collection.hasPlayer(0, y) )
           return false;
-        for ( var x = 0; x < this.collection.get('width'); x++ ) {
+        for ( var x = 0; x < this.collection.getWidth(); x++ ) {
           if ( this.collection.isBlocker(x, y) ) blocked = true;
         }
         return !blocked;

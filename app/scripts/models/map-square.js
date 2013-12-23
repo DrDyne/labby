@@ -7,10 +7,10 @@ define([
       y: 0,
       player: undefined,
       bonus: undefined,
-      allow: ['all'],
+      allows: ['all'],
     },
 
     hasPlayer: function () { return this.has('player') },
-    isBlocker: function () { console.log(!!this.get('allow').length ); return !!this.get('allow').length },
+    isBlocker: function () { return !this.get('allows').length },
   });
 });

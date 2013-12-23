@@ -16,7 +16,7 @@ define([
       //Backbone.io.connect();
       console.log('initializing game');
       this.splashScreen = new SplashScreen();
-      this.map = new Map({width: 3, height: 3});
+      this.map = new Map({layout: 'stage1'});
     },
 
     start: function () {
