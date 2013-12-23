@@ -6,7 +6,7 @@ define([
   return Backbone.View.extend({
     initialize: function (options) {
 
-      this.collection = new Map({layout: 'stage1'});
+      this.collection = new Map({layout: 'stage2'});
       this.collection.renderLayout();
 
       this.bindPushables();
@@ -18,8 +18,6 @@ define([
         this.isPushable('down', index);
         console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
       }, this);
-
-      console.log('---');
 
       _(this.collection.rows()).each(function (row, index) {
         this.isPushable('left', index);

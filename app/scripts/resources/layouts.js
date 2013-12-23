@@ -27,5 +27,46 @@ define(function () {
         }
       ],
     },
+    stage2: {
+      itemsPerRow: 4, //remember developers start counting at ZERO
+      map: [
+        {  //row 0
+          allows: ['up', 'left'],
+        }, {
+          allows: ['up', 'right', 'down'],
+        }, {
+          allows: ['up', 'down'],
+          player: 'player2',
+        }, {
+          allows: ['left', 'right'],
+        }, { //row 1
+          allows: ['all'],
+          bonus: 'double-move',
+        }, {
+          allows: ['all'],
+        }, {
+          allows: ['right'],
+        }, {
+          allows: ['all'],
+        }, { //row2
+          allows: ['up', 'left'],
+        }, {
+          allows: ['all'],
+        }, {
+          allows: ['right'],
+        }, {
+          allows: ['all'],
+        }, { // row 3
+          allows: ['up', 'left'],
+        }, {
+          allows: ['up', 'right', 'down'],
+          player: 'player1',
+        }, {
+          allows: ['up', 'down'],
+        }, {
+          allows: ['left', 'right'],
+        }
+      ],
+    },
   }
 });
