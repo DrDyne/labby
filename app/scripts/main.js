@@ -2,33 +2,36 @@
 'use strict';
 
 require.config({
-    shim: {
-        underscore: {
-            exports: '_'
-        },
-        backbone: {
-            deps: [
-                'underscore',
-                'jquery'
-            ],
-            exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: ['jquery'],
-            exports: 'jquery'
-        }
-    },
     paths: {
-        jquery: '../bower_components/jquery/jquery',
-        backbone: '../bower_components/backbone/backbone',
-        underscore: '../bower_components/underscore/underscore',
-        bootstrap: 'vendor/bootstrap'
+      jquery: '../bower_components/jquery/jquery.min',
+      backbone: '../bower_components/backbone/backbone-min',
+      underscore: '../bower_components/underscore/underscore-min',
+      handlebars: 'bower_components/handlebars/handlebars.min',
+      bootstrap: 'vendor/bootstrap',
+      text: 'vendor/text',
+
+      templates: '../templates/index',
+    },
+    shim: {
+      underscore: { exports: '_' },
+      backbone: {
+        deps: [ 'underscore', 'jquery' ],
+        exports: 'Backbone'
+      },
+      'backbone.io': ['backbone'],
+      bootstrap: {
+        deps: ['jquery'],
+        exports: 'jquery'
+      }
+    },
+    handlebars: {
     }
 });
 
 require([
-    'backbone'
-], function (Backbone) {
-    Backbone.history.start();
-    console.log('Hello from Backbone!');
+  'backbone',
+  'views/game',
+], function (Backbone, Game) {
+  Backbone.history.start();
+  var game = new Game();
 });
