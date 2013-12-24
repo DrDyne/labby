@@ -4,11 +4,11 @@
   // 3. prompt menu
 define([
   'backbone',
-  //'backbone.io',
+  'ws',
   'models/game',
   'views/splashScreen',
   'views/map',
-], function (Backbone, Game, SplashScreen, Map) {
+], function (Backbone, ws, Game, SplashScreen, Map) {
   return Backbone.View.extend({
     el: 'map',
     events: {
@@ -23,7 +23,10 @@ define([
     onClickStart: function (event) {
       event.preventDefault();
       var selectedStage = this.$el.find('#select-stage').val();
-      console.log('loading', selectedStage);
+
+      var playerName = this.$el.find('#player-name').val();
+      ws.emit('player:connected', playerName);
+
       this.start(selectedStage);
     },
 

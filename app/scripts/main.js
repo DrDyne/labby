@@ -17,12 +17,17 @@ require.config({
         deps: [ 'underscore', 'jquery' ],
         exports: 'Backbone'
       },
-      'backbone.io': ['backbone'],
       bootstrap: {
         deps: ['jquery'],
         exports: 'jquery'
       }
     },
+
+    deps: [
+      'backbone',
+      'underscore',
+      'ws',
+    ]
 });
 
 require([

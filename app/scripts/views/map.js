@@ -10,7 +10,6 @@ define([
 
       this.collection = new Map({layout: options.layout});
       this.collection.renderLayout();
-
       this.bindPushables();
     },
 
@@ -18,13 +17,13 @@ define([
       _(this.collection.cols()).each(function (col, index) {
         this.isPushable('up', index);
         this.isPushable('down', index);
-        console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
+        //console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
       }, this);
 
       _(this.collection.rows()).each(function (row, index) {
         this.isPushable('left', index);
         this.isPushable('right', index);
-        console.log(index, 'left', this.isPushable('left', index), 'right', this.isPushable('right', index));
+        //console.log(index, 'left', this.isPushable('left', index), 'right', this.isPushable('right', index));
       }, this);
     },
 
@@ -64,15 +63,12 @@ define([
 
       surface.html('');
       _(this.collection.rows()).each(function (row, index) {
-          console.log(row);
         row.index = index;
         var mapRow = $(tpl.mapRow(row));
         _(row).each(function (square) {
-          console.log(square);
           var json = square.toJSON();
           mapRow.append(tpl.mapSquare(json))
         });
-        console.log(mapRow);
         surface.append(mapRow);
       });
     }
