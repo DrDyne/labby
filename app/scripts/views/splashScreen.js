@@ -2,9 +2,7 @@ define([
   'backbone'
 ], function (Backbone) {
   return Backbone.View.extend({
-    initialize: function (options) {
-      console.log('splash screen');
-    },
+    initialize: function (options) { },
 
     start: function () {
       console.log('splash !!!');

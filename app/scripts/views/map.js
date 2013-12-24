@@ -2,11 +2,13 @@
 define([
   'backbone',
   'collections/map',
-], function (Backbone, Map) {
+  'templates/index',
+], function (Backbone, Map, tpl) {
   return Backbone.View.extend({
+    el: '.map',
     initialize: function (options) {
 
-      this.collection = new Map({layout: 'stage2'});
+      this.collection = new Map({layout: options.layout});
       this.collection.renderLayout();
 
       this.bindPushables();
@@ -56,5 +58,23 @@ define([
         return !blocked;
       }
     },
+
+    render: function () {
+      var surface = this.$el.find('.map-surface');
+
+      surface.html('');
+      _(this.collection.rows()).each(function (row, index) {
+          console.log(row);
+        row.index = index;
+        var mapRow = $(tpl.mapRow(row));
+        _(row).each(function (square) {
+          console.log(square);
+          var json = square.toJSON();
+          mapRow.append(tpl.mapSquare(json))
+        });
+        console.log(mapRow);
+        surface.append(mapRow);
+      });
+    }
   });
 });
