@@ -22,9 +22,13 @@ define([
       ws.emit('game:init', this.id);
     },
 
-    start: function (stage) {
+    createMap: function (stage) {
       this.map = new Map({layout: stage});
       this.map.render();
+    },
+
+    waitingForPlayer: function () {
+      alert('waiting for players...');
     },
 
     onPlayerCreate: function (event) {
@@ -36,13 +40,14 @@ define([
 
     onSelectStage: function (event) {
       var selectedStage = this.$el.find('#select-stage').val();
-      this.start(selectedStage);
+      this.createMap(selectedStage);
+      this.waitingForPlayer();
     },
 
     _ws: {
-      onPlayers: function (data) {
-        this.$el.find('p.player-list').html(data.join(', '));
-      }
+      onPlayers: function (options) {
+        this.$el.find('p.player-list').html(options.join(', '));
+      },
     },
   });
 });

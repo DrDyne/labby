@@ -11,14 +11,16 @@ io.sockets.on('connection', function (socket) {
     socket.emit('players', rooms.lobby);
   });
 
+  socket.on('game:start', function (options) {
+    console.log(options);
+  });
+
   socket.on('player:create', function (playerName) {
     rooms.lobby.push(playerName);
     socket.join('lobby');
     io.sockets.in('lobby').emit('players', rooms.lobby);
   });
 
-  socket.on('game:start', function (options) {
-  });
 });
 
 app.listen(9001);
