@@ -1,10 +1,10 @@
 define(function () {
   return {
     stage1: {
-      itemsPerRow: 3, //remember developers start counting at ZERO
+      itemsPerRow: 3,
       map: [
         {  //row 0
-          allows: ['up', 'left'], 
+          allows: ['up', 'left'],
         }, {
           allows: ['up', 'right', 'down'],
         }, {
@@ -28,7 +28,7 @@ define(function () {
       ],
     },
     stage2: {
-      itemsPerRow: 4, //remember developers start counting at ZERO
+      itemsPerRow: 4,
       map: [
         {  //row 0
           allows: ['up', 'left'],
