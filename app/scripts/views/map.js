@@ -7,7 +7,6 @@ define([
   return Backbone.View.extend({
     el: '.map',
     initialize: function (options) {
-
       this.collection = new Map({layout: options.layout});
       this.collection.renderLayout();
       this.bindPushables();

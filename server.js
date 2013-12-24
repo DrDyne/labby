@@ -4,14 +4,20 @@ var io = require('socket.io').listen(app);
 
 var rooms = {
   lobby: [],
-};
-
+}
 io.sockets.on('connection', function (socket) {
 
-  socket.on('player:connected', function (playerName) {
+  socket.on('game:init', function (client) {
+    socket.emit('players', rooms.lobby);
+  });
+
+  socket.on('player:create', function (playerName) {
     rooms.lobby.push(playerName);
     socket.join('lobby');
-    socket.in('lobby').emit('players', rooms.lobby);
+    io.sockets.in('lobby').emit('players', rooms.lobby);
+  });
+
+  socket.on('game:start', function (options) {
   });
 });
 

@@ -39,19 +39,26 @@
               <div class="form-group">
                 <input type="text" class="form-control input-lg" id="player-name" placeholder="Player Wan Kenobi">
               </div>
-
-              <div class="form-group">
-                <label for="select-stage" class="col-sm-2 control-label">Select stage</label>
-                <select class="form-control input-lg" id="select-stage">
-                  <option value="stage1">Stage 1</option>
-                  <option value="stage2">Stage 2</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Start</button>
-              </div>
             </fieldset>
           </form>
+        </div>
+
+        <div class="container">
+          Players connected:
+          <p class="player-list">
+          </p>
+        </div>
+
+        <div class="container select-stage-container hidden">
+          <div id="menu">
+            <div class="form-group">
+              <select class="form-control input-lg" id="select-stage">
+                <option selected disabled>Select stage</option>
+                <option value="stage1">Stage 1</option>
+                <option value="stage2">Stage 2</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <div class="container">
