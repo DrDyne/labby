@@ -6,11 +6,10 @@ require.config({
       jquery: '../bower_components/jquery/jquery.min',
       backbone: '../bower_components/backbone/backbone-min',
       underscore: '../bower_components/underscore/underscore-min',
-      handlebars: 'bower_components/handlebars/handlebars.min',
       bootstrap: 'vendor/bootstrap',
       text: 'vendor/text',
 
-      templates: '../templates/index',
+      templates: '../templates',
     },
     shim: {
       underscore: { exports: '_' },
@@ -24,8 +23,6 @@ require.config({
         exports: 'jquery'
       }
     },
-    handlebars: {
-    }
 });
 
 require([
@@ -33,5 +30,5 @@ require([
   'views/game',
 ], function (Backbone, Game) {
   Backbone.history.start();
-  var game = new Game();
+  var game = new Game({el:'body'});
 });
