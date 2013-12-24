@@ -1,6 +1,6 @@
 define(['backbone'], function (Backbone) {
   return Backbone.Model.extend({
-    attributes: {
+    defaults: {
       width: 0,
       height: 0,
       map: [],

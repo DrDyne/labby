@@ -1,6 +1,6 @@
 define(['backbone'], function (Backbone) {
   return Backbone.Model.extend({
-    attributes: {
+    defaults: {
       name: undefined,
     }
   });
