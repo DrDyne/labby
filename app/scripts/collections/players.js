@@ -1,8 +1,12 @@
 define([
   'backbone',
-  'models/player',
-], function (Backbone, Player) {
+], function (Backbone) {
   return Backbone.Collection.extend({
-    backend: 'players'
+    model: Backbone.Model.extend({
+      defaults: {
+        name: undefined,
+        team: undefined,
+      }
+    }),
   });
 });

@@ -1,9 +1,33 @@
 define([
   'backbone',
-  'models/map-square',
-  'models/layout',
   'resources/layouts',
-], function (Backbone, Square, Layout, Resources) {
+], function (Backbone, Resources) {
+  var Layout = Backbone.Model.extend({
+    defaults: {
+      width: 0,
+      height: 0,
+      map: [],
+    }
+  });
+
+  var Square = Backbone.Model.extend({
+    defaults: {
+      x: 0,
+      y: 0,
+      player: undefined,
+      bonus: undefined,
+      allows: ['all'],
+    },
+
+    hasPlayer: function () { return this.has('player') },
+    isBlocker: function () { return !this.get('allows').length },
+    toJSON: function () {
+      var json = _.clone(this.attributes);
+      json.cls = {};
+      return json;
+    },
+  });
+
   return Backbone.Collection.extend({
     model: Square,
     layout: undefined,

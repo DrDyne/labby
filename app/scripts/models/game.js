@@ -1,11 +1,9 @@
 define([
   'backbone',
-  'views/menu',
   'models/player',
-], function (Backbone, Menu, Player) {
+], function (Backbone, Player) {
   return Backbone.Model.extend({
     initialize: function (options) {
-      this.menu = new menu();
     },
   });
 });

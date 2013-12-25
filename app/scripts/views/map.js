@@ -6,6 +6,7 @@ define([
 ], function (Backbone, Map, tpl) {
   return Backbone.View.extend({
     el: '.map',
+
     initialize: function (options) {
       this.collection = new Map({layout: options.layout});
       this.collection.renderLayout();
@@ -70,6 +71,19 @@ define([
         });
         surface.append(mapRow);
       });
-    }
+      return this;
+    },
+
+    findPlayerSquare: function (player) {
+      return this.collection.find(function (item) {
+        return item.hasPlayer() && item.get('player') === player
+      });
+    },
+
+    whereToMove: function (player) {
+      var square = this.findPlayerSquare(player);
+      console.log(player, 'in', square);
+    },
+
   });
 });

@@ -1,14 +1,12 @@
-//ry this game view will 
-  // 1. splahscreen
-  // 2. give instructions on how to play
-  // 3. prompt menu
 define([
   'backbone',
   'com',
   'models/game',
   'views/splashScreen',
   'views/map',
-], function (Backbone, com, Game, SplashScreen, Map) {
+  'views/game-hud',
+  'views/game-menu',
+], function (Backbone, com, Game, SplashScreen, Map, Hud, Menu) {
   return Backbone.View.extend({
     events: {
       'submit #welcome-menu': 'onPlayerCreate',
