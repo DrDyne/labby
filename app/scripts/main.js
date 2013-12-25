@@ -33,8 +33,10 @@ require.config({
 
 require([
   'backbone',
-  'views/game',
-], function (Backbone, Game) {
+  'views/app',
+  'session',
+], function (Backbone, App, Session) {
   Backbone.history.start();
-  var game = new Game({el:'body'});
+  var app = new App({el:'body'});
+  window.app = app;
 });
