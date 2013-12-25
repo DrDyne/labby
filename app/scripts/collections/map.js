@@ -32,17 +32,11 @@ define([
     model: Square,
     layout: undefined,
 
-    initialize: function (options) {
-      if ( options.layout ) this.loadLayout(options.layout);
-    },
-
     loadLayout: function (layoutName) {
       this.layout = new Layout(Resources[layoutName]);
       this.width = this.layout.get('itemsPerRow');
       this.height = this.layout.get('map').length / this.layout.get('itemsPerRow');
-    },
 
-    renderLayout: function () {
       this.reset();
 
       var map = _.clone(this.layout.get('map'));
