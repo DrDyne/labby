@@ -5,11 +5,9 @@ define([
   'templates/index',
 ], function (Backbone, Map, tpl) {
   return Backbone.View.extend({
-    el: '.map',
-
     initialize: function (options) {
-      this.collection = new Map({layout: options.layout});
-      this.collection.renderLayout();
+      this.collection = new Map();
+      this.collection.loadLayout(options.layout);
       this.bindPushables();
     },
 
