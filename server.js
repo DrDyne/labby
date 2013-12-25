@@ -2,7 +2,7 @@ var _ = require('underscore');
 var app = require('http').createServer();
 var io = require('socket.io').listen(app);
 
-var game = {
+var GAME = {
   status: 'waiting', // waiting | playing
   players: [], // player names
   stage: undefined, // stage name
@@ -33,6 +33,20 @@ io.sockets.on('connection', function (socket) {
     socket.join('lobby');
     io.sockets.in('lobby').emit('players', rooms.lobby);
     console.log(_(rooms).keys());
+  });
+
+  socket.on('game:host', function (options) {
+    socket.emit('game:create', options);
+    console.log('game hosted', options);
+  });
+
+  socket.on('game:created', function (options) {
+    rooms[options.name] = options;
+    console.log('game created', options);
+  });
+
+  socket.on('game:join', function (options) { 
+    console.log('join game:', options);
   });
 
 });
