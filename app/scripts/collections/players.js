@@ -1,12 +1,13 @@
 define([
   'backbone',
-], function (Backbone) {
+  'models/player',
+], function (Backbone, Player) {
   return Backbone.Collection.extend({
-    model: Backbone.Model.extend({
-      defaults: {
-        name: undefined,
-        team: undefined,
-      }
-    }),
+    model: Player,
+    setCurrent: function (player) { this._currentPlayer = player },
+    next: function () {
+      if ( this._currentPlayer.get('index') === this.length ) return this.at(0);
+      return this.at(this._currentPlayer.get('index') + 1)
+    },
   });
 });
