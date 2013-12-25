@@ -24,9 +24,10 @@ require.config({
     },
 
     deps: [
+      'bootstrap',
       'backbone',
       'underscore',
-      'ws',
+      'com',
     ]
 });
 

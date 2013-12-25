@@ -4,11 +4,11 @@
   // 3. prompt menu
 define([
   'backbone',
-  'ws',
+  'com',
   'models/game',
   'views/splashScreen',
   'views/map',
-], function (Backbone, ws, Game, SplashScreen, Map) {
+], function (Backbone, com, Game, SplashScreen, Map) {
   return Backbone.View.extend({
     events: {
       'submit #welcome-menu': 'onPlayerCreate',
@@ -18,8 +18,8 @@ define([
     initialize: function (options) {
       this.splashScreen = new SplashScreen();
       this.splashScreen.start();
-      ws.on('players', this._ws.onPlayers.bind(this));
-      ws.emit('game:init', this.id);
+      com.on('players', this.com.onPlayers.bind(this));
+      com.emit('game:init', this.id);
     },
 
     createMap: function (stage) {
@@ -34,7 +34,7 @@ define([
     onPlayerCreate: function (event) {
       event.preventDefault();
       var playerName = this.$el.find('#player-name').val();
-      ws.emit('player:create', playerName);
+      com.emit('player:create', playerName);
       this.$el.find('.select-stage-container').removeClass('hidden');
     },
 
@@ -44,7 +44,7 @@ define([
       this.waitingForPlayer();
     },
 
-    _ws: {
+    com: {
       onPlayers: function (options) {
         this.$el.find('p.player-list').html(options.join(', '));
       },
