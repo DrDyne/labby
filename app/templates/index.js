@@ -1,15 +1,18 @@
 define([
   'text!templates/map-square.html',
   'text!templates/map-surface-row.html',
-  'text!templates/game-menu.html',
+  'text!templates/app-menu.html',
+  'text!templates/app-menu-stages.html',
 ], function (
   mapSquare,
   mapRow,
-  gameMenu
+  appMenu,
+  appMenuStages
 ) {
   return {
     mapSquare: _.template(mapSquare),
     mapRow: _.template(mapRow),
-    gameMenu: _.template(gameMenu),
+    appMenu: _.template(appMenu),
+    appMenuStages: _.template(appMenuStages),
   }
 });
