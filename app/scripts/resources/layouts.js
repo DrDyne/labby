@@ -2,6 +2,7 @@ define(function () {
   return {
     stage1: {
       itemsPerRow: 3,
+      max: 2,
       map: [
         {  //row 0
           allows: ['up', 'left'],
@@ -29,6 +30,7 @@ define(function () {
     },
     stage2: {
       itemsPerRow: 4,
+      max: 2,
       map: [
         {  //row 0
           allows: ['up', 'left'],
@@ -68,5 +70,9 @@ define(function () {
         }
       ],
     },
+    stage3: {
+      max: 4,
+      locked: true
+    }
   }
 });
