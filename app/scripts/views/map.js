@@ -8,25 +8,28 @@ define([
     initialize: function (options) {
       this.collection = new Map();
       this.collection.loadLayout(options.layout);
-      this.bindPushables();
     },
 
-    bindPushables: function () {
+    findChrome: function (options) {
+      return this.$el.find('.chrome[data-pos-y="' + options.y + '"][data-pos-x="' + options.x + '"]');
+    },
+
+    updateChrome: function () { //TODO ry play with easing and jquery animations
       _(this.collection.cols()).each(function (col, index) {
-        this.isPushable('up', index);
-        this.isPushable('down', index);
+        this.findChrome({x: index, y: 'bottom'})[ this.isPushable('up', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
+        this.findChrome({x: index, y: 'top'})[ this.isPushable('down', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
         //console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
       }, this);
 
       _(this.collection.rows()).each(function (row, index) {
-        this.isPushable('left', index);
-        this.isPushable('right', index);
+        this.findChrome({x: 'right', y: index})[ this.isPushable('left', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
+        this.findChrome({x: 'left', y: index})[ this.isPushable('right', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
         //console.log(index, 'left', this.isPushable('left', index), 'right', this.isPushable('right', index));
       }, this);
     },
 
     //ry direction = up right down left
-    // coord = X or Y
+    // coord = X or Y (int)
     isPushable: function (direction, coord) {
       var blocked = false;
 
@@ -62,7 +65,7 @@ define([
       this.renderSquareChrome(row, {hidden: true});
 
       for ( var i=0; i < this.collection.width; i++ ) {
-        this.renderSquareChrome(row, {x:i});
+        this.renderSquareChrome(row, {x:i, y: options.y});
       }
 
       this.renderSquareChrome(row, {hidden: true});
@@ -90,21 +93,23 @@ define([
 
       surface.html('');
 
-      this.renderRowChrome(surface);
+      this.renderRowChrome(surface, {y:'top'});
 
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
         var mapRow = $(tpl.mapRow(row));
-        renderChrome(mapRow, {y:index});
+        renderChrome(mapRow, {y:index, x: 'left'});
         _(row).each(function (square) {
           var json = square.toJSON();
           mapRow.append(tpl.mapSquare(json))
         });
-        renderChrome(mapRow, {y:index});
+        renderChrome(mapRow, {y:index, x: 'right'});
         surface.append(mapRow);
       });
 
-      this.renderRowChrome(surface);
+      this.renderRowChrome(surface, {y: 'bottom'});
+
+      this.updateChrome();
 
       return this;
     },
