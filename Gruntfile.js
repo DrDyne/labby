@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         },
         watch: {
             less: {
-                files: ['/styles/{,*/}/*.less'],
+                files: ['<%= yeoman.app %>/styles/{,*/}/*.less'],
                 tasks: ['less']
             },
             styles: {
