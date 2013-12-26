@@ -62,7 +62,7 @@ define([
       this.renderSquareChrome(row, {hidden: true});
 
       for ( var i=0; i < this.collection.width; i++ ) {
-        this.renderSquareChrome(row);
+        this.renderSquareChrome(row, {x:i});
       }
 
       this.renderSquareChrome(row, {hidden: true});
@@ -74,8 +74,8 @@ define([
       var json = {
         cls: {},
         player: undefined,
-        x: undefined,
-        y: undefined,
+        x: options.x,
+        y: options.y,
       };
 
       json.cls.chrome = 'chrome';
@@ -95,12 +95,12 @@ define([
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
         var mapRow = $(tpl.mapRow(row));
-        renderChrome(mapRow);
+        renderChrome(mapRow, {y:index});
         _(row).each(function (square) {
           var json = square.toJSON();
           mapRow.append(tpl.mapSquare(json))
         });
-        renderChrome(mapRow);
+        renderChrome(mapRow, {y:index});
         surface.append(mapRow);
       });
 
