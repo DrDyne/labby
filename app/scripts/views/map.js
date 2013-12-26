@@ -56,19 +56,56 @@ define([
       }
     },
 
+    renderRowChrome: function (surface, options) {
+      var row = $(tpl.mapRow({index:undefined}));
+
+      this.renderSquareChrome(row, {hidden: true});
+
+      for ( var i=0; i < this.collection.width; i++ ) {
+        this.renderSquareChrome(row);
+      }
+
+      this.renderSquareChrome(row, {hidden: true});
+      surface.append(row);
+    },
+
+    renderSquareChrome: function (surface, options) {
+      if ( !options ) options = {};
+      var json = {
+        cls: {},
+        player: undefined,
+        x: undefined,
+        y: undefined,
+      };
+
+      json.cls.chrome = 'chrome';
+      if ( options.hidden ) json.cls.hidden = 'chrome-hidden';
+
+      surface.append(tpl.mapSquare(json));
+    },
+
     render: function () {
       var surface = this.$el.find('.map-surface');
+      var renderChrome = this.renderSquareChrome;
 
       surface.html('');
+
+      this.renderRowChrome(surface);
+
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
         var mapRow = $(tpl.mapRow(row));
+        renderChrome(mapRow);
         _(row).each(function (square) {
           var json = square.toJSON();
           mapRow.append(tpl.mapSquare(json))
         });
+        renderChrome(mapRow);
         surface.append(mapRow);
       });
+
+      this.renderRowChrome(surface);
+
       return this;
     },
 
