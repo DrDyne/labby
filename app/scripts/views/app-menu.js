@@ -67,12 +67,14 @@ define([
       console.log('join:', event);
     },
 
-    onHostSubmit: function () {
+    onHostSubmit: function (event) {
+      event.preventDefault();
       var gameName = this.getGameName('host');
       this.host(gameName, 'stage1');
     },
 
-    onJoinSubmit: function () {
+    onJoinSubmit: function (event) {
+      event.preventDefault();
     },
 
   });

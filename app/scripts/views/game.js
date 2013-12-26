@@ -13,6 +13,9 @@ define([
     },
 
     createGame: function (options) {
+      this.hud = new Hud({el: '#hud'});
+      this.hud.render();
+
       this.map = new Map({el: '#map', layout: options.stage});
 
       this.game = new Game({

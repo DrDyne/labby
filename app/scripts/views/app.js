@@ -21,7 +21,7 @@ define([
     },
 
     initialize: function (options) {
-      this.splashScreen = new SplashScreen({el: '#body'});
+      this.splashScreen = new SplashScreen({el: 'body'});
       this.menu = new Menu({el: "#menu"});
       this.game = new Game({el: '#game'});
 
@@ -36,10 +36,10 @@ define([
       com.emit('player:create', playerName);
       session.set('player', new Player({id: playerName}));
       this.menu.show();
-      this.hideWelcomeMenu();
+      this.hidePlayerNameMenu();
     },
 
-    hideWelcomeMenu: function () {
+    hidePlayerNameMenu: function () {
       this.$el.find('#welcome-menu').slideUp();
     },
 
