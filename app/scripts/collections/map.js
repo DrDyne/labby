@@ -24,6 +24,7 @@ define([
     toJSON: function () {
       var json = _.clone(this.attributes);
       json.cls = {};
+      json.allows = this.get('allows').join('-')
       return json;
     },
   });

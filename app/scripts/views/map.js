@@ -79,6 +79,7 @@ define([
         player: undefined,
         x: options.x,
         y: options.y,
+        allows: {},
       };
 
       json.cls.chrome = 'chrome';

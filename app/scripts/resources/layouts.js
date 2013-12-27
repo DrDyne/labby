@@ -12,7 +12,7 @@ define(function () {
           allows: ['up', 'down'],
           player: 'player2',
         }, { //row 1
-          allows: ['left', 'right'],
+          allows: ['right', 'left'],
         }, {
           allows: ['all'],
           bonus: 'double-move',
@@ -40,7 +40,7 @@ define(function () {
           allows: ['up', 'down'],
           player: 'player2',
         }, {
-          allows: ['left', 'right'],
+          allows: ['right', 'down', 'left'],
         }, { //row 1
           allows: ['all'],
           bonus: 'double-move',
@@ -57,7 +57,7 @@ define(function () {
         }, {
           allows: ['right'],
         }, {
-          allows: ['all'],
+          allows: ['down', 'left'],
         }, { // row 3
           allows: ['up', 'left'],
         }, {
@@ -66,7 +66,7 @@ define(function () {
         }, {
           allows: ['up', 'down'],
         }, {
-          allows: ['left', 'right'],
+          allows: ['right', 'left'],
         }
       ],
     },

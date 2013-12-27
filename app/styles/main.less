@@ -114,6 +114,72 @@ body {
     .chrome-hidden {
       visibility: hidden;
     }
+
+    @wall: 4px solid black;
+    [data-allows="all"] {
+    }
+    [data-allows=""] {
+      border-top: @wall;
+      border-right: @wall;
+      border-bottom: @wall;
+      border-left: @wall;
+    }
+    [data-allows="up"] {
+      border-right: @wall;
+      border-bottom: @wall;
+      border-left: @wall;
+    }
+    [data-allows="right"] {
+      border-top: @wall;
+      border-bottom: @wall;
+      border-left: @wall;
+    }
+    [data-allows="down"] {
+      border-top: @wall;
+      border-right: @wall;
+      border-left: @wall;
+    }
+    [data-allows="left"] {
+      border-top: @wall;
+      border-right: @wall;
+      border-down: @wall;
+    }
+    [data-allows="up-right"] {
+      border-bottom: @wall;
+      border-left: @wall;
+    }
+    [data-allows="up-down"] {
+      border-right: @wall;
+      border-left: @wall;
+    }
+    [data-allows="up-left"] {
+      border-right: @wall;
+      border-bottom: @wall;
+    }
+    [data-allows="right-down"] {
+      border-top: @wall;
+      border-left: @wall;
+    }
+    [data-allows="right-left"] {
+      border-top: @wall;
+      border-bottom: @wall;
+    }
+    [data-allows="down-left"] {
+      border-top: @wall;
+      border-right: @wall;
+    }
+    [data-allows="up-right-down"] {
+      border-left: @wall;
+    }
+    [data-allows="up-right-left"] {
+      border-bottom: @wall;
+    }
+    [data-allows="up-down-left"] {
+      border-right: @wall;
+    }
+    [data-allows="right-down-left"] {
+      border-top: @wall;
+    }
   }
 }
 
@@ -127,3 +193,4 @@ body {
 [data-player="player2"] {
   background-color: @team-red;
 }
+
