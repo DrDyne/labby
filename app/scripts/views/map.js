@@ -2,128 +2,34 @@
 define([
   'backbone',
   'collections/map',
+  'views/map-chrome',
+  'views/map-players',
   'templates/index',
-], function (Backbone, Map, tpl) {
+], function (Backbone, Map, Chrome, Players, tpl) {
   return Backbone.View.extend({
     initialize: function (options) {
       this.collection = new Map();
       this.collection.loadLayout(options.layout);
-    },
-
-    findChrome: function (options) {
-      return this.$el.find('.chrome[data-pos-y="' + options.y + '"][data-pos-x="' + options.x + '"]');
-    },
-
-    updateChrome: function () { //TODO ry play with easing and jquery animations
-      _(this.collection.cols()).each(function (col, index) {
-        this.findChrome({x: index, y: 'bottom'})[ this.isPushable('up', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
-        this.findChrome({x: index, y: 'top'})[ this.isPushable('down', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
-        //console.log(index, 'up', this.isPushable('up', index), 'down', this.isPushable('down', index));
-      }, this);
-
-      _(this.collection.rows()).each(function (row, index) {
-        this.findChrome({x: 'right', y: index})[ this.isPushable('left', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
-        this.findChrome({x: 'left', y: index})[ this.isPushable('right', index) ? 'removeClass' : 'addClass' ]('chrome-hidden');
-        //console.log(index, 'left', this.isPushable('left', index), 'right', this.isPushable('right', index));
-      }, this);
-    },
-
-    //ry direction = up right down left
-    // coord = X or Y (int)
-    isPushable: function (direction, coord) {
-      var blocked = false;
-
-      if ( direction === 'up' || direction === 'down' ) {
-        var x = coord;
-        if ( direction === 'up' && this.collection.hasPlayer(x, 0) )
-          return false;
-        if ( direction === 'down' && this.collection.hasPlayer(x, this.collection.getHeight()) )
-          return false;
-
-        for ( var y = 0; y < this.collection.getHeight(); y++ ) {
-          if ( this.collection.isBlocker(x, y) ) blocked = true;
-        }
-        return !blocked;
-      }
-
-      if ( direction === 'right' || direction === 'left' ) {
-        var y = coord;
-        if ( direction === 'right' && this.collection.hasPlayer(this.collection.getWidth(), y) )
-          return false;
-        if ( direction === 'left' && this.collection.hasPlayer(0, y) )
-          return false;
-        for ( var x = 0; x < this.collection.getWidth(); x++ ) {
-          if ( this.collection.isBlocker(x, y) ) blocked = true;
-        }
-        return !blocked;
-      }
-    },
-
-    renderRowChrome: function (surface, options) {
-      var row = $(tpl.mapRow({index:undefined}));
-
-      this.renderSquareChrome(row, {hidden: true});
-
-      for ( var i=0; i < this.collection.width; i++ ) {
-        this.renderSquareChrome(row, {x:i, y: options.y});
-      }
-
-      this.renderSquareChrome(row, {hidden: true});
-      surface.append(row);
-    },
-
-    renderSquareChrome: function (surface, options) {
-      if ( !options ) options = {};
-      var json = {
-        cls: {},
-        player: undefined,
-        x: options.x,
-        y: options.y,
-        allows: {},
-      };
-
-      json.cls.chrome = 'chrome';
-      if ( options.hidden ) json.cls.hidden = 'chrome-hidden';
-
-      surface.append(tpl.mapSquare(json));
+      this.players = new Players({el: options.el, collection: this.collection, model: this.model.getPlayers()});
+      this.chrome = new Chrome({el: options.el, collection: this.collection})
     },
 
     render: function () {
       var surface = this.$el.find('.map-surface');
-      var renderChrome = this.renderSquareChrome;
 
       surface.html('');
-
-      this.renderRowChrome(surface, {y:'top'});
 
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
         var mapRow = $(tpl.mapRow(row));
-        renderChrome(mapRow, {y:index, x: 'left'});
-        _(row).each(function (square) {
-          var json = square.toJSON();
-          mapRow.append(tpl.mapSquare(json))
-        });
-        renderChrome(mapRow, {y:index, x: 'right'});
+        _(row).each(function (square) { mapRow.append(tpl.mapSquare(square.toJSON())) });
         surface.append(mapRow);
       });
 
-      this.renderRowChrome(surface, {y: 'bottom'});
-
-      this.updateChrome();
+      this.chrome.render();
+      this.chrome.update();
 
       return this;
-    },
-
-    findPlayerSquare: function (player) {
-      return this.collection.find(function (item) {
-        return item.hasPlayer() && item.get('player') === player
-      });
-    },
-
-    whereToMove: function (player) {
-      var square = this.findPlayerSquare(player);
-      console.log(player, 'in', square);
     },
 
   });
