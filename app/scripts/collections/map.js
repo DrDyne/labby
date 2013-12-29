@@ -17,9 +17,20 @@ define([
       player: undefined,
       bonus: undefined,
       allows: ['all'],
+      type: undefined,
     },
 
-    hasPlayer: function () { return this.has('player') },
+    allowsAll: function () { return 'all' === this.get('allows').toString() },
+    allows: function (direction) {
+      if ( this.allowsAll() ) return true;
+      return _(this.get('allows')).contains(direction);
+    },
+
+    hasPlayer: function (player) {
+      if ( !player ) return this.has('player');
+      return this.get('player') === player.get('id');
+    },
+
     isBlocker: function () { return !this.get('allows').length },
     toJSON: function () {
       var json = _.clone(this.attributes);
@@ -83,6 +94,13 @@ define([
 
     isBlocker: function (x, y) {
       return this.getSquare(x, y).isBlocker();
-    }
+    },
+
+    getPlayerSquare: function (player) {
+      return this.find(function (item) {
+        return item.hasPlayer(player);
+      });
+    },
+
   })
 });
