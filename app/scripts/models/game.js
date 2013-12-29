@@ -19,8 +19,14 @@ define([
       this.set('players', new Players());
     },
 
+    getPlayers: function () {
+      return this.get('players');
+    },
+
     addPlayer: function (player) {
-      player.set('index', this.get('players').length);
+      var index = this.get('players').length;
+      player.set('index', index);
+      player.set('id', 'player' + (index + 1));
 
       if ( this.get('players').isEmpty() ) {
         this.get('players').setCurrent(player);
@@ -39,6 +45,11 @@ define([
       turn.player = this.get('players').next();
 
       this.set('turn', turn);
+    },
+
+    isPlayerTurn: function (player) {
+      console.log('is player turn', this.get('turn').player);
+      return this.get('turn').player.get('id') === player.get('id');
     },
 
     toJSON: function () { return this.attributes },

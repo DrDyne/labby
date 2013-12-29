@@ -3,7 +3,13 @@ define(['backbone', 'com'], function (Backbone, com) {
     defaults: {
       player: undefined,
       game: undefined,
+    },
+
+    isMyTurn: function () {
+      return true; //ry hack
+      return this.get('game').isPlayerTurn(this.get('player'));
     }
+
   });
 
   return new Session();

@@ -8,24 +8,25 @@ define([
 ], function (Backbone, com, session, Game, Map, Hud, Layouts) {
   return Backbone.View.extend({
     initialize: function (options) {
-      com.on('game:create', this.createGame.bind(this));
-      com.on('game:join', this.joinGame.bind(this));
+      com.ws.on('game:create', this.createGame.bind(this));
+      com.ws.on('game:join', this.joinGame.bind(this));
     },
 
     createGame: function (options) {
-      this.hud = new Hud({el: '#hud'});
-      this.hud.render();
-
-      this.map = new Map({el: '#map', layout: options.stage});
-
       this.game = new Game({
         name: options.name,
         stage: options.stage,
       });
       this.game.addPlayer(session.get('player'));
+      session.set('game', this.game);
 
+      this.hud = new Hud({el: '#hud', model: this.game});
+      this.hud.render();
+
+      this.map = new Map({el: '#map', model: this.game, layout: options.stage});
       this.map.render();
-      com.emit('game:created', this.game.toJSON());
+
+      com.ws.emit('game:created', this.game.toJSON());
     },
 
     joinGame: function (options) {
@@ -33,4 +34,4 @@ define([
     },
 
   });
-});
+kk});

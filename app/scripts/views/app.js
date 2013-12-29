@@ -26,15 +26,15 @@ define([
       this.game = new Game({el: '#game'});
 
       this.splashScreen.start();
-      com.on('players', this.onPlayers.bind(this));
-      com.emit('game:init', this.id);
+      com.ws.on('players', this.onPlayers.bind(this));
+      com.ws.emit('game:init', this.id);
     },
 
     onPlayerCreate: function (event) {
       event.preventDefault();
       var playerName = this.$el.find('#player-name').val();
-      com.emit('player:create', playerName);
-      session.set('player', new Player({id: playerName}));
+      com.ws.emit('player:create', playerName);
+      session.set('player', new Player({name: playerName}));
       this.menu.show();
       this.hidePlayerNameMenu();
     },

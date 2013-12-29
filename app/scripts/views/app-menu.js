@@ -41,17 +41,17 @@ define([
     },
 
     host: function (name, stage) {
-      com.emit('game:host', {name: name, stage: stage});
+      com.ws.emit('game:host', {name: name, stage: stage});
     },
 
     // name: game name to join
     // stage: any, stage1, stage2, ...
     join: function (options) {
       if ( !options ) options = {stage: 'any'};
-      com.emit('game:join', options);
+      com.ws.emit('game:join', options);
     },
 
-    defaultHostName: function () { return session.get('player').get('id') + "'s game" },
+    defaultHostName: function () { return session.get('player').get('name') + "'s game" },
 
     getGameName: function (type) { // host | join
       return this.$el.find('#menu-'+type + ' input').val() || this.defaultHostName();
