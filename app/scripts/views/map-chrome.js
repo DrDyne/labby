@@ -57,7 +57,7 @@ define([
     },
 
     renderRowChrome: function (options) {
-      var $el = $(tpl.mapRow({index:undefined}));
+      var $el = $(tpl.map.row({index:undefined}));
 
       this.renderSquareChrome($el, {hidden: true});
 
@@ -88,9 +88,9 @@ define([
       if ( options.hidden ) json.cls.hidden = 'chrome-hidden';
 
       if ( options.append )
-        $el.append(tpl.mapSquare(json));
+        $el.append(tpl.map.square(json));
       if ( options.prepend )
-        $el.prepend(tpl.mapSquare(json));
+        $el.prepend(tpl.map.square(json));
     },
 
     renderTop: function () {

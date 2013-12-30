@@ -21,8 +21,8 @@ define([
 
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
-        var mapRow = $(tpl.mapRow(row));
-        _(row).each(function (square) { mapRow.append(tpl.mapSquare(square.toJSON())) });
+        var mapRow = $(tpl.map.row(row));
+        _(row).each(function (square) { mapRow.append(tpl.map.square(square.toJSON())) });
         surface.append(mapRow);
       });
 

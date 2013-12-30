@@ -8,8 +8,8 @@ define([
 ], function (Backbone, com, session, Game, Map, Hud, Layouts) {
   return Backbone.View.extend({
     initialize: function (options) {
-      com.ws.on('game:create', this.createGame.bind(this));
-      com.ws.on('game:join', this.joinGame.bind(this));
+      com.on('game:host', this.createGame.bind(this));
+      com.on('game:join', this.joinGame.bind(this));
     },
 
     createGame: function (options) {
@@ -26,7 +26,7 @@ define([
       this.map = new Map({el: '#map', model: this.game, layout: options.stage});
       this.map.render();
 
-      com.ws.emit('game:created', this.game.toJSON());
+      com.trigger('game:created', this.game.toJSON());
     },
 
     joinGame: function (options) {

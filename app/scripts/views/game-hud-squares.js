@@ -4,7 +4,7 @@ define([
 ], function (Backbone, tpl) {
   return Backbone.View.extend({
     render: function () {
-      this.$el.html(tpl.hudSquares());
+      this.$el.html(tpl.hud.squares());
     }
   });
 });

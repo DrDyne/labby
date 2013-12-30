@@ -24,7 +24,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(tpl.appMenu({hostName: this.defaultHostName()}));
+      this.$el.html(tpl.app.menu({hostName: this.defaultHostName()}));
     },
 
     renderStages: function () {
@@ -36,19 +36,19 @@ define([
           max: Layouts[key].max,
           cls: Layouts[key].locked ? 'disabled' : '',
         };
-        dropdowns.append(tpl.appMenuStages(json));
+        dropdowns.append(tpl.app.menuStages(json));
       });
     },
 
     host: function (name, stage) {
-      com.ws.emit('game:host', {name: name, stage: stage});
+      com.trigger('game:host', {name: name, stage: stage});
     },
 
     // name: game name to join
     // stage: any, stage1, stage2, ...
     join: function (options) {
       if ( !options ) options = {stage: 'any'};
-      com.ws.emit('game:join', options);
+      com.trigger('game:join', options);
     },
 
     defaultHostName: function () { return session.get('player').get('name') + "'s game" },

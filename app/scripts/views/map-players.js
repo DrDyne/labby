@@ -3,18 +3,32 @@ define([
   'backbone',
   'com',
   'session',
-], function (Backbone, com, session) {
+  'templates/index',
+], function (Backbone, com, session, tpl) {
   return Backbone.View.extend({
     events: {
-      'click .move-candidate': 'move',
+      'click .move-candidate': 'onClickCandidate',
     },
 
     initialize: function (options) {
-      this.listenTo(com, 'action:move', this.showMoveCandidates.bind(this));
+      this.listenTo(com, 'action:move', this.showMoveCandidates, this);
+
+      this.listenTo(com, 'player:move', this.move, this);
+      this.listenTo(com, 'player:moved', this.move, this);
     },
 
-    move: function (event) {
-      console.log('moving player!', event.currentTarget.getAttribute('data-target'));
+    onClickCandidate: function (event) { 
+      var options = {
+        player: session.get('player'),
+        direction: event.currentTarget.getAttribute('data-direction'),
+      };
+      com.trigger('player:move', options);
+    },
+
+    move: function (options) {
+      var direction = options.direction, player = options.player;
+      if ( !player ) player = session.get('player');
+      console.log('moving player!', player, direction);
     },
 
     canMoveUp: function (square) {
@@ -90,9 +104,15 @@ define([
       this.$el.find('.move-candidate').remove();
     },
 
+    findSquare: function (options) {
+      return this.$el.find('.square[data-pos-x="' + options.x + '"][data-pos-y="' + options.y + '"]');
+    },
+
     renderCandidate: function (direction, options) {
       if ( !options ) return;
       console.log('you can move', direction, 'to:', options.x, options.y);
+      var square = this.findSquare({x: options.x, y: options.y});
+      square.append(tpl.map.moveCandidate({direction: direction}));
     },
 
   });

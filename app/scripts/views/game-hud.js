@@ -12,7 +12,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(tpl.hud());
+      this.$el.html(tpl.hud.base());
 
       this.createComponents();
       this.renderComponents();

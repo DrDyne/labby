@@ -26,14 +26,15 @@ define([
       this.game = new Game({el: '#game'});
 
       this.splashScreen.start();
-      com.ws.on('players', this.onPlayers.bind(this));
-      com.ws.emit('game:init', this.id);
+      com.on('players:connected', this.showPlayerNb.bind(this));
+      com.trigger('app:init', this.id);
+      com.trigger('lobby:games');
     },
 
     onPlayerCreate: function (event) {
       event.preventDefault();
       var playerName = this.$el.find('#player-name').val();
-      com.ws.emit('player:create', playerName);
+      com.trigger('player:create', playerName);
       session.set('player', new Player({name: playerName}));
       this.menu.show();
       this.hidePlayerNameMenu();
@@ -43,8 +44,8 @@ define([
       this.$el.find('#welcome-menu').slideUp();
     },
 
-    onPlayers: function (options) {
-      this.$el.find('p.player-list').html(options.join(', '));
+    showPlayerNb: function (count) {
+      this.$el.find('span.player-list').html(count);
     },
   });
 });

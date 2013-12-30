@@ -8,7 +8,7 @@ define(['backbone', 'com'], function (Backbone, com) {
     isMyTurn: function () {
       return true; //ry hack
       return this.get('game').isPlayerTurn(this.get('player'));
-    }
+    },
 
   });
 

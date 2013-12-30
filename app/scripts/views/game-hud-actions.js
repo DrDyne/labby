@@ -36,7 +36,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(tpl.hudActions());
+      this.$el.html(tpl.hud.actions());
     },
 
   });
