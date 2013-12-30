@@ -6,6 +6,7 @@ define([
   'text!templates/hud-squares.html',
   'text!templates/hud.html',
   'text!templates/map-move-candidate.html',
+  'text!templates/map-square-chrome.html',
   'text!templates/map-square.html',
   'text!templates/map-surface-row.html',
 ], function (
@@ -16,6 +17,7 @@ define([
   hudSquares,
   hud,
   mapMoveCandidate,
+  mapSquareChrome,
   mapSquare,
   mapRow
 ) {
@@ -31,9 +33,10 @@ define([
       squares: _.template(hudSquares),
     },
     map: {
+      chrome: _.template(mapSquareChrome),
       moveCandidate: _.template(mapMoveCandidate),
-      square: _.template(mapSquare),
       row: _.template(mapRow),
+      square: _.template(mapSquare),
     }
   }
 });
