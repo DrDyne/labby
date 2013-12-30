@@ -5,6 +5,7 @@ define([
   'text!templates/hud-chat.html',
   'text!templates/hud-squares.html',
   'text!templates/hud.html',
+  'text!templates/map-move-candidate.html',
   'text!templates/map-square.html',
   'text!templates/map-surface-row.html',
 ], function (
@@ -14,17 +15,25 @@ define([
   hudChat,
   hudSquares,
   hud,
+  mapMoveCandidate,
   mapSquare,
   mapRow
 ) {
   return {
-    appMenu: _.template(appMenu),
-    appMenuStages: _.template(appMenuStages),
-    hudActions: _.template(hudActions),
-    hudChat: _.template(hudChat),
-    hudSquares: _.template(hudSquares),
-    hud: _.template(hud),
-    mapSquare: _.template(mapSquare),
-    mapRow: _.template(mapRow),
+    app: {
+      menu: _.template(appMenu),
+      menuStages: _.template(appMenuStages),
+    },
+    hud: {
+      actions: _.template(hudActions),
+      base: _.template(hud),
+      chat: _.template(hudChat),
+      squares: _.template(hudSquares),
+    },
+    map: {
+      moveCandidate: _.template(mapMoveCandidate),
+      square: _.template(mapSquare),
+      row: _.template(mapRow),
+    }
   }
 });
