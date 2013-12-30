@@ -27,6 +27,13 @@ define([
       this.map.render();
 
       com.trigger('game:created', this.game.toJSON());
+
+
+      //ry hack, this will be placed in an initGame() method that will be called when all players have joined
+      com.trigger('player:add:square', {allows: ['up']});
+      com.trigger('player:add:square', {allows: ['right', 'left']});
+      com.trigger('player:add:square', {allows: ['all']});
+      com.trigger('player:add:square', {allows: []});
     },
 
     joinGame: function (options) {

@@ -11,7 +11,7 @@ define([
     },
 
     initialize: function (options) {
-      this.listenTo(com, 'action:cancel', this.cancelAction, this);
+      this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(com, 'action:move', this.showMoveCandidates, this);
       this.listenTo(com, 'player:move', this.move, this);
       this.listenTo(com, 'player:moved', this.move, this);
@@ -116,7 +116,7 @@ define([
       square.append(tpl.map.moveCandidate({direction: direction}));
     },
 
-    cancelAction: function () {
+    cancel: function () {
       this.hideMoveCandidates();
     },
 

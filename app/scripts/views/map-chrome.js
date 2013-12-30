@@ -10,7 +10,7 @@ define([
     },
 
     initialize: function (options) {
-      this.listenTo(com, 'action:cancel', this.cancelAction, this);
+      this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(com, 'action:push', this.showPushCandidates, this);
       this.listenTo(com, 'player:push', this.push, this);
       this.listenTo(com, 'player:pushed', this.push, this);
@@ -153,16 +153,16 @@ define([
       return this;
     },
 
-    cancelAction: function () {
-      this.hidePushCandidates();
-    },
-
     hidePushCandidates: function () {
       this.$el.find('.chrome').addClass('chrome-hidden');
     },
 
     showPushCandidates: function () {
       this.update();
+    },
+
+    cancel: function () {
+      this.hidePushCandidates();
     },
   });
 });

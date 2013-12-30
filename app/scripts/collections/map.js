@@ -34,8 +34,9 @@ define([
     isBlocker: function () { return !this.get('allows').length },
     toJSON: function () {
       var json = _.clone(this.attributes);
-      json.cls = {};
       json.allows = this.get('allows').join('-')
+      json.cls = {};
+      json.cls.selected = this.get('selected') === true ? 'selected' : '';
       return json;
     },
   });
@@ -101,6 +102,13 @@ define([
         return item.hasPlayer(player);
       });
     },
+
+    select: function (index) {
+      this.invoke('set', 'selected', false);
+      this.at(index).set('selected', true);
+    },
+
+    toJSON: function () { return this.map(function (item) { return item.toJSON() }) },
 
   })
 });
