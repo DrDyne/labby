@@ -26,8 +26,7 @@ define([
         surface.append(mapRow);
       });
 
-      this.chrome.render();
-      this.chrome.update();
+      this.chrome.render({hidden: true});
 
       return this;
     },

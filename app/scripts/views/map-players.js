@@ -11,13 +11,14 @@ define([
     },
 
     initialize: function (options) {
+      this.listenTo(com, 'action:cancel', this.cancelAction, this);
       this.listenTo(com, 'action:move', this.showMoveCandidates, this);
-
       this.listenTo(com, 'player:move', this.move, this);
       this.listenTo(com, 'player:moved', this.move, this);
     },
 
     onClickCandidate: function (event) { 
+      event.preventDefault();
       var options = {
         player: session.get('player'),
         direction: event.currentTarget.getAttribute('data-direction'),
@@ -113,6 +114,10 @@ define([
       console.log('you can move', direction, 'to:', options.x, options.y);
       var square = this.findSquare({x: options.x, y: options.y});
       square.append(tpl.map.moveCandidate({direction: direction}));
+    },
+
+    cancelAction: function () {
+      this.hideMoveCandidates();
     },
 
   });

@@ -1,8 +1,39 @@
 define([
   'backbone',
+  'com',
+  'session',
   'templates/index',
-], function (Backbone, tpl) {
+], function (Backbone, com, session, tpl) {
   return Backbone.View.extend({
+    events: {
+      'click .push-candidate': 'onClickCandidate',
+    },
+
+    initialize: function (options) {
+      this.listenTo(com, 'action:cancel', this.cancelAction, this);
+      this.listenTo(com, 'action:push', this.showPushCandidates, this);
+      this.listenTo(com, 'player:push', this.push, this);
+      this.listenTo(com, 'player:pushed', this.push, this);
+    },
+
+    onClickCandidate: function (event) {
+      event.preventDefault();
+      var options = {
+        player: session.get('player'),
+        row: event.currentTarget.getAttribute('data-pos-y'),
+        col: event.currentTarget.getAttribute('data-pos-x'),
+        direction: event.currentTarget.getAttribute('data-direction'),
+      };
+
+      com.trigger('player:push', options);
+    },
+
+    push: function (options) {
+      var direction = options.direction, player = options.player;
+      if ( !player ) player = session.get('player');
+      console.log('player', player.get('name'), 'is pushing', options.row, options.col, 'in', options.direction);
+    },
+
     findChrome: function (options) {
       return this.$el.find('.chrome[data-pos-y="' + options.y + '"][data-pos-x="' + options.x + '"]');
     },
@@ -113,10 +144,25 @@ define([
       this.renderRowChrome({append: true, y:'bottom'});
     },
 
-    render: function () {
+    render: function (options) {
       this.renderTop();
       this.renderSides();
       this.renderBottom();
+
+      if ( options.hidden ) this.hidePushCandidates();
+      return this;
+    },
+
+    cancelAction: function () {
+      this.hidePushCandidates();
+    },
+
+    hidePushCandidates: function () {
+      this.$el.find('.chrome').addClass('chrome-hidden');
+    },
+
+    showPushCandidates: function () {
+      this.update();
     },
   });
 });
