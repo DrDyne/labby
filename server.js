@@ -13,14 +13,12 @@ var GAME = {
   },
 };
 
-var rooms = {
-  lobby: [],
-};
-
 io.sockets.on('connection', function (socket) {
 
-  socket.on('game:init', function (client) {
-    socket.emit('players', rooms.lobby);
+  socket.join('lobby');
+
+  socket.on('app:init', function (client) {
+    socket.emit('players:connected', io.sockets.clients('lobby').length);
   });
 
   socket.on('game:start', function (options) {
@@ -28,11 +26,14 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('player:create', function (playerName) {
-    rooms.lobby.push(playerName);
-    socket.set('playerName', playerName);
-    socket.join('lobby');
-    io.sockets.in('lobby').emit('players', rooms.lobby);
-    console.log(_(rooms).keys());
+    //socket.set('playerName', playerName);
+    //io.sockets.in('lobby').emit('players', io.sockets.clients('lobby'));
+    console.log(_(io.sockets.manager.rooms).keys());
+  });
+
+  socket.on('lobby:games', function (options) {
+    console.log('existing games', io.sockets.manager.rooms);
+    socket.emit('lobby:games:existing', io.sockets.manager.rooms);
   });
 
   socket.on('game:host', function (options) {
@@ -41,7 +42,8 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('game:created', function (options) {
-    rooms[options.name] = options;
+    //ry game.id = socket.id
+    socket.join(options.name);
     console.log('game created', options);
   });
 
