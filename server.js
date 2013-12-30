@@ -16,6 +16,7 @@ var GAME = {
 io.sockets.on('connection', function (socket) {
 
   socket.join('lobby');
+  socket.broadcast.to('lobby').emit('players:connected', io.sockets.clients('lobby').length);
 
   socket.on('app:init', function (client) {
     socket.emit('players:connected', io.sockets.clients('lobby').length);

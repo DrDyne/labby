@@ -27,7 +27,7 @@ define([
 
     move: function (options) {
       var direction = options.direction, player = options.player;
-      if ( !player ) player = session.get('player');
+      if ( !player ) player = session.get('player'); // ry we should use id for com instead of bb models
       console.log('moving player!', player, direction);
     },
 
