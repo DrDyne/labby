@@ -16,10 +16,10 @@ var GAME = {
 io.sockets.on('connection', function (socket) {
 
   socket.join('lobby');
-  socket.broadcast.to('lobby').emit('players:connected', io.sockets.clients('lobby').length);
+  socket.broadcast.to('lobby').emit('player:connected', io.sockets.clients('lobby').length);
 
   socket.on('app:init', function (client) {
-    socket.emit('players:connected', io.sockets.clients('lobby').length);
+    socket.emit('player:connected', io.sockets.clients('lobby').length);
   });
 
   socket.on('game:start', function (options) {
@@ -48,8 +48,14 @@ io.sockets.on('connection', function (socket) {
     console.log('game created', options);
   });
 
-  socket.on('game:join', function (options) { 
+  socket.on('game:join', function (options) {
     console.log('join game:', options);
+  });
+
+  socket.on('disconnect', function (options) {
+    var rooms = io.sockets.manager.roomClients[socket.id];
+    if ( _(rooms).contains('/lobby') )
+      socket.broadcast.to('lobby').emit('player:connected', io.sockets.clients('lobby').length - 1);
   });
 
 });
