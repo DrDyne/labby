@@ -13,7 +13,7 @@ define([
   com.on('game:created', function (options) { ws.emit('game:created', options) });
 
   ws.on('player:moved', function (options) { com.trigger('player:moved', options) });
-  ws.on('players:connected', function (options) { console.log('connected players:', options); com.trigger('players:connected', options) });
+  ws.on('player:connected', function (options) { console.log('connected players:', options); com.trigger('player:connected', options) });
   ws.on('lobby:games:existing', function (options) {
     com.trigger('lobby:games:existing', options);
   });

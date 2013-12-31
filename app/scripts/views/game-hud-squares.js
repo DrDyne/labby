@@ -7,6 +7,7 @@ define([
   return Backbone.View.extend({
     events: {
       'click .hud-square': 'select',
+      'click .rotate': 'rotate',
     },
 
     initialize: function (options) {
@@ -28,6 +29,14 @@ define([
       var index = event.currentTarget.getAttribute('data-hud-square-index');
       this.collection.select(index);
       this.update();
+    },
+
+    rotate: function (event) {
+      event.preventDefault();
+      var square = this.collection.getSelected();
+      if ( !square ) return;
+      var direction = event.currentTarget.getAttribute('data-rotate-direction');
+      square.rotate(direction);
     },
 
     render: function () {

@@ -37,6 +37,7 @@ define([
       if ( !square.allows('up') ) return false;
       var candidate = this.collection.getSquare(square.get('x'), square.get('y') - 1);
       if ( candidate.isBlocker() ) return false;
+      if ( !candidate.allows('down') ) return false;
       if ( candidate.hasPlayer() ) {
         //ry players of the same team cannot stand in the same square
         //ninjas cannot enter a samurai's square

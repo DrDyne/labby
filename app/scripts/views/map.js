@@ -15,7 +15,7 @@ define([
     },
 
     render: function () {
-      var surface = this.$el.find('.map-surface');
+      var self = this, surface = this.$el.find('.map-surface');
 
       surface.html('');
 
@@ -26,9 +26,17 @@ define([
         surface.append(mapRow);
       });
 
+      _(this.collection.rows()).each(function (row, index) {
+        _(row).each(function (square) { self.renderWalls(square.pos()) });
+      });
+
       this.chrome.render({hidden: true});
 
       return this;
+    },
+
+    renderWalls: function (pos) {
+      console.log('render walls', pos.x, pos.y);
     },
 
   });

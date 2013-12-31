@@ -12,14 +12,15 @@ define([
 
   var Square = Backbone.Model.extend({
     defaults: {
-      x: 0,
-      y: 0,
+      x: undefined,
+      y: undefined,
       player: undefined,
       bonus: undefined,
       allows: ['all'],
       type: undefined,
     },
 
+    isBlocker: function () { return !this.get('allows').length },
     allowsAll: function () { return 'all' === this.get('allows').toString() },
     allows: function (direction) {
       if ( this.allowsAll() ) return true;
@@ -31,7 +32,33 @@ define([
       return this.get('player') === player.get('id');
     },
 
-    isBlocker: function () { return !this.get('allows').length },
+    pos: function () { return { x: this.get('x'), y: this.get('y') } },
+
+    rotate: function (direction) {
+      if ( this.isBlocker() ) return;
+      if ( this.allowsAll() ) return;
+      if ( 'right' === direction ) return this.rotateClockwise();
+      if ( 'left'  === direction ) return this.rotateAntiClockwise();
+    },
+
+    rotateClockwise: function () {
+      var newAllows = [];
+      if ( this.allows('left') ) newAllows.push('up');
+      if ( this.allows('up') ) newAllows.push('right');
+      if ( this.allows('right') ) newAllows.push('down');
+      if ( this.allows('down') ) newAllows.push('left');
+      this.set('allows', newAllows);
+    },
+
+    rotateAntiClockwise: function () {
+      var newAllows = [];
+      if ( this.allows('right') ) newAllows.push('up');
+      if ( this.allows('down') ) newAllows.push('right');
+      if ( this.allows('left') ) newAllows.push('down');
+      if ( this.allows('up') ) newAllows.push('left');
+      this.set('allows', newAllows);
+    },
+
     toJSON: function () {
       var json = _.clone(this.attributes);
       json.allows = this.get('allows').join('-')
@@ -106,6 +133,19 @@ define([
     select: function (index) {
       this.invoke('set', 'selected', false);
       this.at(index).set('selected', true);
+    },
+
+    getSelected: function () { return this.find(function (item) { return item.get('selected') }) },
+
+    allows: function (options) { // x, y, direction
+      if ( !options ) options = {};
+      if ( options.square ) {
+        options.x = square.get('x');
+        options.y = square.get('y');
+      }
+
+      if ( this.allowsAll() ) return true;
+      return _(this.get('allows')).contains(direction);
     },
 
     toJSON: function () { return this.map(function (item) { return item.toJSON() }) },

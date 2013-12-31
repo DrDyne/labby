@@ -26,7 +26,7 @@ define([
       this.game = new Game({el: '#game'});
 
       this.splashScreen.start();
-      com.on('players:connected', this.showPlayerNb.bind(this));
+      com.on('player:connected', this.showPlayerNb.bind(this));
       com.trigger('app:init', this.id);
       com.trigger('lobby:games');
     },
