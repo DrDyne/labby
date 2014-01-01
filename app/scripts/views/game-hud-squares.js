@@ -1,9 +1,10 @@
 define([
   'backbone',
   'com',
+  'session',
   'collections/map',
   'templates/index',
-], function (Backbone, com, Squares, tpl) {
+], function (Backbone, com, session, Squares, tpl) {
   return Backbone.View.extend({
     events: {
       'click .hud-square': 'select',
@@ -11,7 +12,7 @@ define([
     },
 
     initialize: function (options) {
-      this.collection = new Squares();
+      this.collection = session.get('player').get('squares');
       this.listenTo(com, 'player:add:square', this.add, this);
       this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(this.collection, 'all', this.update, this);

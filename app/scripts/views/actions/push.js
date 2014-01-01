@@ -11,7 +11,6 @@ define([
     }, 
 
     getDirection: function (options) {
-      console.log(options);
       if ( options.row === 'top' ) return 'down';
       if ( options.col === 'right' ) return 'left';
       if ( options.row === 'bottom' ) return 'up';

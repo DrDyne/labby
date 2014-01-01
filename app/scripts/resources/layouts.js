@@ -19,7 +19,7 @@ define(function () {
         }, {
           allows: ['all'],
         }, { //row2
-          allows: ['right'],
+          allows: ['up', 'right'],
           player: 'player1',
         }, {
           allows: ['all'],

@@ -13,8 +13,6 @@ define([
     initialize: function (options) {
       this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(com, 'action:move', this.showMoveCandidates, this);
-      this.listenTo(com, 'player:move', this.move, this);
-      this.listenTo(com, 'player:moved', this.move, this);
     },
 
     onClickCandidate: function (event) { 
@@ -24,12 +22,6 @@ define([
         direction: event.currentTarget.getAttribute('data-direction'),
       };
       com.trigger('player:move', options);
-    },
-
-    move: function (options) {
-      var direction = options.direction, player = options.player;
-      if ( !player ) player = session.get('player'); // ry we should use id for com instead of bb models
-      console.log('moving player!', player, direction);
     },
 
     canMoveUp: function (square) {

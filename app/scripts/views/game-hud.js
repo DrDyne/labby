@@ -11,11 +11,15 @@ define([
       'click .maximize-chat': 'maximizeChat',
     },
 
-    render: function () {
-      this.$el.html(tpl.hud.base());
+    initialize: function () {
+      this.render();
 
       this.createComponents();
       this.renderComponents();
+    },
+
+    render: function () {
+      this.$el.html(tpl.hud.base());
     },
 
     createComponents: function () {

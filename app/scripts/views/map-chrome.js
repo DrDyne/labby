@@ -6,14 +6,12 @@ define([
 ], function (Backbone, com, session, tpl) {
   return Backbone.View.extend({
     events: {
-      'click .push-candidate': 'onClickCandidate',
+      'click .chrome': 'onClickCandidate',
     },
 
     initialize: function (options) {
       this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(com, 'action:push', this.showPushCandidates, this);
-      this.listenTo(com, 'player:push', this.push, this);
-      this.listenTo(com, 'player:pushed', this.push, this);
     },
 
     onClickCandidate: function (event) {
@@ -22,16 +20,9 @@ define([
         player: session.get('player'),
         row: event.currentTarget.getAttribute('data-pos-y'),
         col: event.currentTarget.getAttribute('data-pos-x'),
-        direction: event.currentTarget.getAttribute('data-direction'),
       };
 
       com.trigger('player:push', options);
-    },
-
-    push: function (options) {
-      var direction = options.direction, player = options.player;
-      if ( !player ) player = session.get('player');
-      console.log('player', player.get('name'), 'is pushing', options.row, options.col, 'in', options.direction);
     },
 
     findChrome: function (options) {
@@ -119,9 +110,9 @@ define([
       if ( options.hidden ) json.cls.hidden = 'chrome-hidden';
 
       if ( options.append )
-        $el.append(tpl.map.square(json));
+        $el.append(tpl.map.chrome(json));
       if ( options.prepend )
-        $el.prepend(tpl.map.square(json));
+        $el.prepend(tpl.map.chrome(json));
     },
 
     renderTop: function () {

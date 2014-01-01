@@ -5,7 +5,8 @@ define([
   'models/game',
   'views/map',
   'views/game-hud',
-], function (Backbone, com, session, Game, Map, Hud, Layouts) {
+  'views/actions/index',
+], function (Backbone, com, session, Game, Map, Hud, Actions) {
   return Backbone.View.extend({
     initialize: function (options) {
       com.on('game:host', this.createGame.bind(this));
@@ -21,19 +22,24 @@ define([
       session.set('game', this.game);
 
       this.hud = new Hud({el: '#hud', model: this.game});
-      this.hud.render();
 
       this.map = new Map({el: '#map', model: this.game, layout: options.stage});
       this.map.render();
+
+      this.actions = {
+        push: new Actions.Push({ collection: this.map.collection, playerSquares: session.get('player').get('squares') }),
+        move: new Actions.Move({ collection: this.map.collection }),
+        use: new Actions.Use({ collection: this.map.collection }),
+      };
 
       com.trigger('game:created', this.game.toJSON());
 
 
       //ry hack, this will be placed in an initGame() method that will be called when all players have joined
-      com.trigger('player:add:square', {allows: ['up']});
-      com.trigger('player:add:square', {allows: ['right', 'left']});
-      com.trigger('player:add:square', {allows: ['all']});
-      com.trigger('player:add:square', {allows: []});
+      session.get('player').get('squares').add({allows: ['up', 'right']});
+      session.get('player').get('squares').add({allows: ['right', 'left']});
+      session.get('player').get('squares').add({allows: ['all']});
+      session.get('player').get('squares').add({allows: []});
     },
 
     joinGame: function (options) {
@@ -41,4 +47,4 @@ define([
     },
 
   });
-kk});
+});
