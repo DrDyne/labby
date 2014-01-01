@@ -7,7 +7,7 @@ define([
 ], function (Backbone, com, session, Actions, tpl) {
   return Backbone.View.extend({
     events: {
-      'click .action': 'execute',
+      'click .action': 'triggerAction',
     },
 
     initialize: function (options) {
@@ -25,13 +25,20 @@ define([
       this.collection.add({id:id});
     },
 
-    execute: function (event) {
+    triggerAction: function (event) {
       event.preventDefault();
+      this.cancel();
       var action = event.currentTarget.getAttribute('data-action');
+      this.execute(action);
+    },
+
+    cancel: function (event) {
+      com.trigger('action:cancel');
+    },
+
+    execute: function (action) {
       console.log(action, this.collection.get(action));
-
       if ( !session.isMyTurn() ) return;
-
       com.trigger('action:' + action);
     },
 

@@ -13,6 +13,7 @@ define([
     initialize: function (options) {
       this.collection = new Squares();
       this.listenTo(com, 'player:add:square', this.add, this);
+      this.listenTo(com, 'action:cancel', this.cancel, this);
       this.listenTo(this.collection, 'all', this.update, this);
     },
 
@@ -37,6 +38,9 @@ define([
       if ( !square ) return;
       var direction = event.currentTarget.getAttribute('data-rotate-direction');
       square.rotate(direction);
+    },
+
+    cancel: function () {
     },
 
     render: function () {

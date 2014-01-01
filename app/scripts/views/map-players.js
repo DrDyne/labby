@@ -83,6 +83,8 @@ define([
     },
 
     showMoveCandidates: function () {
+      this.hideMoveCandidates();
+
       var player = session.get('player');
       var square = this.collection.getPlayerSquare(player);
 
@@ -93,8 +95,8 @@ define([
         left: this.canMoveLeft(square),
       };
 
-      console.log(player, 'in', square);
-      console.log('can move to', candidates);
+      //console.log(player, 'in', square);
+      //console.log('can move to', candidates);
 
       _(['up', 'right', 'down', 'left']).each(function (direction) {
         if ( candidates[direction] ) 
@@ -112,7 +114,7 @@ define([
 
     renderCandidate: function (direction, options) {
       if ( !options ) return;
-      console.log('you can move', direction, 'to:', options.x, options.y);
+      //console.log('you can move', direction, 'to:', options.x, options.y);
       var square = this.findSquare({x: options.x, y: options.y});
       square.append(tpl.map.moveCandidate({direction: direction}));
     },
