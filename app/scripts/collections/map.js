@@ -59,6 +59,11 @@ define([
       this.set('allows', newAllows);
     },
 
+    push: function (direction, value) {
+      if ( direction === 'up' || direction === 'down' ) this.set('y', value);
+      if ( direction === 'left' || direction === 'right' ) this.set('x', value);
+    },
+
     toJSON: function () {
       var json = _.clone(this.attributes);
       json.allows = this.get('allows').join('-')
@@ -109,11 +114,13 @@ define([
     },
 
     getRow: function (y) {
-      return this.filter(function (item) { return item.get('y') === y });
+      var squares = this.filter(function (item) { return item.get('y') === y });
+      return _(squares).sortBy(function (item) { return item.get('x') });
     },
 
     getCol: function (x) {
-      return this.filter(function (item) { return item.get('x') === x });
+      var squares = this.filter(function (item) { return item.get('x') === x });
+      return _(squares).sortBy(function (item) { return item.get('y') });
     },
 
     hasPlayer: function (x, y) {
@@ -149,6 +156,5 @@ define([
     },
 
     toJSON: function () { return this.map(function (item) { return item.toJSON() }) },
-
   })
 });
