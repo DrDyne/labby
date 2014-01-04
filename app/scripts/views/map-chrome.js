@@ -22,7 +22,8 @@ define([
         col: event.currentTarget.getAttribute('data-pos-x'),
       };
 
-      com.trigger('player:push', options);
+      if ( options.player.get('squares').getSelected() )
+        com.trigger('player:push', options);
     },
 
     findChrome: function (options) {
@@ -78,16 +79,17 @@ define([
       return this.$el.find('.square[data-pos-x="' + options.x + '"][data-pos-y="' + options.y + '"]');
     },
 
+  //options.y = top | bottom
     renderRowChrome: function (options) {
       var $el = $(tpl.map.row({index:undefined}));
 
-      this.renderSquareChrome($el, {hidden: true});
+      this.renderSquareChrome($el, {y: options.y, x: 'left', hidden: true});
 
       for ( var i=0; i < this.collection.width; i++ ) {
         this.renderSquareChrome($el, {x:i, y: options.y});
       }
 
-      this.renderSquareChrome($el, {hidden: true});
+      this.renderSquareChrome($el, {y: options.y, x: 'right', y: options.y, x: 'right', hidden: true});
 
       if ( options.append )
         this.$el.find('.map-surface').append($el);
