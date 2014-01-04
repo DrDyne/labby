@@ -7,8 +7,8 @@ define([
 ], function (Backbone, com, session, Squares, tpl) {
   return Backbone.View.extend({
     events: {
-      'click .hud-square': 'select',
-      'click .rotate': 'rotate',
+      'click .hud-square': 'onSelect',
+      'click .rotate': 'onRotate',
     },
 
     initialize: function (options) {
@@ -26,18 +26,26 @@ define([
       console.log('remove square', square);
     },
 
-    select: function (event) {
+    onSelect: function (event) {
       event.preventDefault();
       var index = event.currentTarget.getAttribute('data-hud-square-index');
-      this.collection.select(index);
-      this.update();
+      this.select(index);
     },
 
-    rotate: function (event) {
+    select: function (index) {
+      this.collection.select(index);
+    },
+
+    onRotate: function (event) {
       event.preventDefault();
-      var square = this.collection.getSelected();
-      if ( !square ) return;
+      var index = $(event.currentTarget).siblings('.hud-square').attr('data-hud-square-index');
       var direction = event.currentTarget.getAttribute('data-rotate-direction');
+      this.rotate(index, direction);
+    },
+
+    rotate: function (index, direction) {
+      var square = this.collection.at(index);
+      if ( !square ) return;
       square.rotate(direction);
     },
 
