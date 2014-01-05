@@ -17,7 +17,7 @@ define([
   hud,
   mapMoveCandidate,
   mapSquareChrome,
-  mapSquare,
+  mapSquare
 ) {
   return {
     app: {
