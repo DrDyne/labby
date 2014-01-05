@@ -4,14 +4,17 @@ define([
   'collections/map',
   'views/map-chrome',
   'views/map-players',
+  'views/animations',
   'templates/index',
-], function (Backbone, Map, Chrome, Players, tpl) {
+], function (Backbone, Map, Chrome, Players, AnimationQueue, tpl) {
   return Backbone.View.extend({
     initialize: function (options) {
       this.collection = new Map();
       this.collection.loadLayout(options.layout);
       this.players = new Players({el: options.el, collection: this.collection, model: this.model.getPlayers()});
       this.chrome = new Chrome({el: options.el, collection: this.collection})
+
+      this.fx = new AnimationQueue();
 
       this.render();
 
@@ -23,26 +26,32 @@ define([
 
     squareWidth: 50,
 
-    mapStyle: function (element) {
-      var options = {};
-      options.width = options.height = (this.collection.width * this.squareWidth) + 'px';
-      return options;
-    },
+    mapStyle: function (element) { return  (this.collection.width * this.squareWidth) + 'px' },
+
+    $chrome: function () { return this.$el.find('.map-chrome') },
+    $surface: function () { return this.$el.find('.map-surface') },
 
     render: function () {
-      var self = this, surface = this.$el.find('.map-surface');
+      var self = this, $surface = this.$surface();
 
-      surface.css(this.mapStyle());
+      this.$chrome().css({
+        width: this.mapStyle(),
+        height: this.mapStyle(),
+        'margin-top': '-' + this.mapStyle(),
+      });
 
-      surface.html('');
+      $surface.css({
+        width: this.mapStyle(),
+        height: this.mapStyle(),
+      });
+
+      $surface.html('');
 
       _(this.collection.rows()).each(function (row, index) {
         row.index = index;
-        var mapRow = $(tpl.map.row(row));
         _(row).each(function (square) {
-          mapRow.append(tpl.map.square(square.toJSON()));
+          $surface.append(tpl.map.square(square.toJSON()));
         });
-        surface.append(mapRow);
       });
 
       _(this.collection.rows()).each(function (row, index) {
@@ -58,24 +67,50 @@ define([
       //console.log('render walls', pos.x, pos.y);
     },
 
-
-    // animate push of row/col
-    // re-render map
-    animateAdd: function (options) {
-      console.log('add', options);
+    animateAdd: function (square) {
+      var $surface = this.$surface();
+      this.fx.add(function (next) {
+        var el = tpl.map.square(square.toJSON());
+        $surface.append(el).queue(next);
+      });
     },
 
     animatePushRow: function (options) {
-      console.log('push row', options);
+      var self = this;
+      this.fx.add(function (next) {
+        if ( options.direction === 'left' )
+          $('.square:not(.chrome)[data-pos-x="right"]').attr('data-pos-x', self.collection.width);
+        var $row = _(options.row).map(function (item) {
+          return '[data-pos-y="' + item.get('y') + '"]:not(.chrome)'
+        }).join(', ');
+
+        $($row).animate({left: (options.direction === 'right' ? '+' : '-' ) + "=50"}).queue(next);
+      });
     },
 
     animatePushCol: function (options ) {
-      console.log('push col', options);
+      var self = this;
+      this.fx.add(function (next) {
+        if ( options.direction === 'up' )
+          $('.square:not(.chrome)[data-pos-y="bottom"]').attr('data-pos-y', self.collection.height);
+
+        var $col = _(options.col).map(function (item) {
+          return '[data-pos-x="' + item.get('x') + '"]:not(.chrome)'
+        }).join(', ');
+
+        $($col).animate({top: (options.direction === 'down' ? '+' : '-' ) + "=50"}).queue(next)
+      });
     },
 
     animateRemove: function (options ) {
-      console.log('remove', options);
-    },
-
+      var self = this;
+      this.fx.add(function (next) {
+        setTimeout(function () {
+          console.log('remove', options);
+          self.render();
+          next();
+        }, 1000);
+      });
+    }, 
   });
 });
