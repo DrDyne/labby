@@ -2,17 +2,18 @@
 define([
   'backbone',
   'collections/map',
-  'views/map-chrome',
-  'views/map-players',
+  'views/ui/index',
   'views/animations',
   'templates/index',
-], function (Backbone, Map, Chrome, Players, AnimationQueue, tpl) {
+], function (Backbone, Map, ui, AnimationQueue, tpl) {
   return Backbone.View.extend({
     initialize: function (options) {
       this.collection = new Map();
       this.collection.loadLayout(options.layout);
-      this.players = new Players({el: options.el, collection: this.collection, model: this.model.getPlayers()});
-      this.chrome = new Chrome({el: options.el, collection: this.collection})
+      this.ui = {
+        move: new ui.move({el: options.el, collection: this.collection, model: this.model.getPlayers()}),
+        push: new ui.push({el: options.el, collection: this.collection}),
+      };
 
       this.fx = new AnimationQueue();
 
@@ -58,8 +59,8 @@ define([
         _(row).each(function (square) { self.renderWalls(square.pos()) });
       });
 
-      this.chrome.render({hidden: true});
-      this.players.render();
+      this.ui.push.render({hidden: true});
+      this.ui.move.render();
 
       return this;
     },

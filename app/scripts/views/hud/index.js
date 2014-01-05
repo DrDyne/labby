@@ -1,8 +1,8 @@
 define([
   'backbone',
-  'views/game-hud-squares',
-  'views/game-hud-actions',
-  'views/game-hud-chat',
+  'views/hud/squares',
+  'views/hud/actions',
+  'views/hud/chat',
   'templates/index',
 ], function (Backbone, Squares, Actions, Chat, tpl) {
   return Backbone.View.extend({

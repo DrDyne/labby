@@ -4,7 +4,7 @@ define([
   'session',
   'models/game',
   'views/map',
-  'views/game-hud',
+  'views/hud/index',
   'views/actions/index',
 ], function (Backbone, com, session, Game, Map, Hud, Actions) {
   return Backbone.View.extend({
