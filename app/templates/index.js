@@ -8,7 +8,6 @@ define([
   'text!templates/map-move-candidate.html',
   'text!templates/map-square-chrome.html',
   'text!templates/map-square.html',
-  'text!templates/map-surface-row.html',
 ], function (
   appMenuStages,
   appMenu,
@@ -19,7 +18,6 @@ define([
   mapMoveCandidate,
   mapSquareChrome,
   mapSquare,
-  mapRow
 ) {
   return {
     app: {
@@ -35,7 +33,6 @@ define([
     map: {
       chrome: _.template(mapSquareChrome),
       moveCandidate: _.template(mapMoveCandidate),
-      row: _.template(mapRow),
       square: _.template(mapSquare),
     }
   }
