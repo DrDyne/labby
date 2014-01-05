@@ -40,6 +40,7 @@ define([
       event.preventDefault();
       var index = $(event.currentTarget).siblings('.hud-square').attr('data-hud-square-index');
       var direction = event.currentTarget.getAttribute('data-rotate-direction');
+      this.select(index);
       this.rotate(index, direction);
     },
 
