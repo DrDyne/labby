@@ -107,6 +107,11 @@ define([
     getWidth: function () { return this.width - 1 },
     getHeight: function () { return this.height - 1 },
 
+    addSquare: function (attributes, pos) {
+      var square = _({}).extend(attributes, {selected: false}, pos || {});
+      this.add(square);
+    },
+
     getSquare: function (x, y) {
       var square = this.find(function (item) { return item.get('x') === x && item.get('y') === y });
       if ( !square ) throw "Could not find square [" + x + "," + y + "]";
@@ -153,6 +158,15 @@ define([
 
       if ( this.allowsAll() ) return true;
       return _(this.get('allows')).contains(direction);
+    },
+
+    removeOutOfBound: function () { this.remove(this.outOfBound()) },
+
+    outOfBound: function () {
+      return this.find(function (square) {
+        var pos = square.pos();
+        return pos.y < 0 || pos.x > this.getWidth() || pos.y > this.getHeight() || pos.x < 0
+      }, this);
     },
 
     toJSON: function () { return this.map(function (item) { return item.toJSON() }) },
