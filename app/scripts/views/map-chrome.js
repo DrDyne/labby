@@ -14,6 +14,8 @@ define([
       this.listenTo(com, 'action:push', this.showPushCandidates, this);
     },
 
+    $chrome: function () { return this.$el.find('.map-chrome') },
+
     onClickCandidate: function (event) {
       event.preventDefault();
       var options = {
@@ -81,7 +83,7 @@ define([
 
   //options.y = top | bottom
     renderRowChrome: function (options) {
-      var $el = $(tpl.map.row({index:undefined}));
+      var $el = this.$chrome();
 
       this.renderSquareChrome($el, {y: options.y, x: 'left', hidden: true});
 
@@ -90,16 +92,10 @@ define([
       }
 
       this.renderSquareChrome($el, {y: options.y, x: 'right', y: options.y, x: 'right', hidden: true});
-
-      if ( options.append )
-        this.$el.find('.map-surface').append($el);
-      if ( options.prepend )
-        this.$el.find('.map-surface').prepend($el);
     },
 
     renderSquareChrome: function ($el, options) {
       if ( !options ) options = {};
-      if ( !options.append && !options.prepend ) options.append = true;
       var json = {
         cls: {},
         player: undefined,
@@ -111,47 +107,38 @@ define([
       json.cls.chrome = 'chrome';
       if ( options.hidden ) json.cls.hidden = 'chrome-hidden';
 
-      if ( options.append )
-        $el.append(tpl.map.chrome(json));
-      if ( options.prepend )
-        $el.prepend(tpl.map.chrome(json));
-    },
-
-    renderTop: function () {
-      this.renderRowChrome({prepend: true, y:'top'});
+      $el.append(tpl.map.chrome(json));
     },
 
     renderSides: function () {
       _(this.collection.rows()).each(function (row, index) {
-        var square, $el = this.$el.find('.map-row[data-row-index="' + index + '"]');
+        var square, $el = this.$chrome();
 
         square = _(row).first();
-        this.renderSquareChrome($el, {x:'left', y: square.get('y'), prepend: true});
+        this.renderSquareChrome($el, {x:'left', y: square.get('y')});
 
         square = _(row).last();
-        this.renderSquareChrome($el, {x:'right', y: square.get('y'), append: true});
+        this.renderSquareChrome($el, {x:'right', y: square.get('y')});
       }, this);
     },
 
-    renderBottom: function () {
-      this.renderRowChrome({append: true, y:'bottom'});
-    },
-
     render: function (options) {
-      this.renderTop();
+      this.$chrome().html('');
+      this.renderRowChrome({y:'top'});
       this.renderSides();
-      this.renderBottom();
+      this.renderRowChrome({y:'bottom'});
 
       if ( options.hidden ) this.hidePushCandidates();
       return this;
     },
 
     hidePushCandidates: function () {
-      this.$el.find('.chrome').addClass('chrome-hidden');
+      this.$chrome().hide();
     },
 
     showPushCandidates: function () {
       this.update();
+      this.$chrome().show();
     },
 
     cancel: function () {

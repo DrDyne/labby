@@ -95,7 +95,7 @@ body {
 }
 
 .square {
-  border: 1px solid black;
+  border: 1px solid #ddd;
   width: 50px;
   height: 50px;
   display: inline-block;
@@ -173,9 +173,10 @@ body {
 
 #map {
   margin: 0 auto;
+  padding: @squareWidth;
   text-align: center;
 
-  .map-surface {
+  .map-chrome {
     position: relative;
     margin: 0 auto;
 
@@ -188,6 +189,12 @@ body {
     .chrome-hidden {
       visibility: hidden;
     }
+
+  }
+
+  .map-surface {
+    position: relative;
+    margin: 0 auto;
 
     .move-candidate {
       width: 15px;
@@ -205,6 +212,7 @@ body {
 
 @team-red: #c14234;
 @team-blu: #598aaa;
+@squareWidth: 50px;
 
 [data-player="player1"] {
   background-color: @team-blu;
@@ -214,29 +222,41 @@ body {
   background-color: @team-red;
 }
 
-.hud-square-list {
-  .hud-square-item {
-    list-style: none;
+#hud-actions {
+  float: left;
+}
 
-    .hud-square {
-      float: left;
-      padding: 0 5px;
-    }
-    .rotate {
-      float: left;
-      visibility: hidden;
-    }
-  }
+#hud-squares {
+  float: right;
+  .hud-square-list {
+    .hud-square-item {
+      list-style: none;
 
-  .hud-square-item:hover {
-    .rotate {
-      visibility: visible;
+      .rotate {
+        height: @squareWidth;
+      }
+
+      .hud-square {
+        float: left;
+        width: @squareWidth;
+        height: @squareWidth;
+        margin: 2px;
+      }
+
+      .rotate {
+        float: left;
+        visibility: hidden;
+      }
+    }
+
+    .hud-square-item:hover {
+      .rotate {
+        visibility: visible;
+      }
     }
   }
 }
 
-
-@squareWidth: 50px;
 
 [data-pos-y="top"] { top: -@squareWidth; }
 [data-pos-x="right"] { right: -@squareWidth; }
