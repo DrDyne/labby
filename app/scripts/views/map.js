@@ -59,6 +59,7 @@ define([
       });
 
       this.chrome.render({hidden: true});
+      this.players.render();
 
       return this;
     },
