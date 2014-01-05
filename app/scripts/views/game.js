@@ -24,7 +24,6 @@ define([
       this.hud = new Hud({el: '#hud', model: this.game});
 
       this.map = new Map({el: '#map', model: this.game, layout: options.stage});
-      this.map.render();
 
       this.actions = {
         push: new Actions.Push({ collection: this.map.collection, playerSquares: session.get('player').get('squares') }),
